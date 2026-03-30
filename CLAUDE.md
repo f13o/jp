@@ -1,28 +1,33 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in
-this repository.
+Este archivo guia a Claude Code (claude.ai/code) al trabajar con este repositorio.
 
-## Purpose
+## Proposito
 
-This is a Japanese language learning repository. Lesson content is written in Spanish.
-The primary goal is learning Japanese -- any code here is incidental tooling.
+Repositorio para aprender japones. El contenido de las lecciones esta escrito en
+espanol. El objetivo principal es aprender japones -- el codigo aqui es solo
+herramientas auxiliares.
 
-## Working in this repo
+## Trabajo en este repo
 
-Focus on Japanese language learning. When asked about Japanese, help with grammar,
-vocabulary, kanji readings, and exercises. Respond in Spanish unless asked otherwise.
+Enfocarse en el aprendizaje de japones. Cuando se pregunte sobre japones, ayudar con
+gramatica, vocabulario, lecturas de kanji y ejercicios. Responder en espanol salvo que
+se pida lo contrario.
 
-## Lessons
+Cada vez que uses kanji en una frase, acompañala de su equivalente en hiragana entre
+paréntesis. Ej: 新しい (あたらしい)
 
-Markdown files (`00-gojuuon.md`, etc.) are the core content. To add a lesson, create a
-new `.md` file and add its filename to the `lessons` array in `index.html`.
+## Lecciones
 
-Special markdown syntax: `{text}` wraps Japanese text with an inline play button for
+Los archivos markdown (`00-gojuuon.md`, etc.) son el contenido principal. Para agregar
+una leccion, crear un nuevo archivo `.md` y agregar su nombre al array `lessons` en
+`index.html`.
+
+Sintaxis especial de markdown: `{texto}` envuelve texto japones con un boton inline de
 text-to-speech.
 
-## Running
+## Ejecucion
 
 ```
-./server.sh    # opens browser and serves on localhost:9999
+./server.sh    # abre el navegador y sirve en localhost:9999
 ```

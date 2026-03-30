@@ -9,6 +9,15 @@ type: adjetivo-na
 - Conveniente, práctico
 - Útil, cómodo
 
+## Conjugaciones
+
+| Forma           | Conjugacion        |
+| --------------- | ------------------ |
+| Presente        | 便利だ             |
+| Negativa        | 便利じゃない       |
+| Pasado          | 便利だった         |
+| Pasado negativo | 便利じゃなかった   |
+
 ## Uso
 
 これは便利です。 これはべんりです。 Esto es practico.

@@ -14,6 +14,8 @@ learner. Avoid repeating words that already have files in `words/`.
 1. Create the file `words/<word>.md` (the filename is the romaji of the word).
 1. Use the appropriate template:
    - Verbs: follow `template-verb.md`
+   - i-adjectives: follow `template-adj-i.md`
+   - na-adjectives: follow `template-adj-na.md`
    - Everything else: follow `template-other.md`
    - Example sentences must be very simple: short, with basic grammar only.
      Use only the target word plus common particles and basic verb forms.
