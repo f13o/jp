@@ -24,7 +24,6 @@
   <div id="content"></div>
   <script>
     const JAPANESE = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF\u3000-\u303F]+/g;
-    const lessons = ["00-gojuuon.md"];
     const voiceSelect = document.getElementById("voice");
     let selectedVoice = null;
 
@@ -48,26 +47,16 @@
       selectedVoice = speechSynthesis.getVoices().find(v => v.name === voiceSelect.value);
     };
 
-    async function loadWords() {
-      const html = await fetch("words/").then(r => r.text());
+    async function loadDirLinks(dir) {
+      const html = await fetch(dir).then(r => r.text());
       const doc = new DOMParser().parseFromString(html, "text/html");
       return [...doc.querySelectorAll("a")]
         .map(a => a.getAttribute("href"))
-        .filter(h => h.endsWith(".md"))
-        .map(h => "words/" + h);
+        .filter(h => h.endsWith(".md") && !h.startsWith("CLAUDE") && !h.startsWith("README"));
     }
 
     const nav = document.getElementById("nav");
-    lessons.forEach(f => {
-      const a = document.createElement("a");
-      a.href = "?" + f;
-      a.textContent = f.replace(".md", "");
-      nav.appendChild(a);
-    });
-    const wordsLink = document.createElement("a");
-    wordsLink.href = "?words";
-    wordsLink.textContent = "words";
-    nav.appendChild(wordsLink);
+    nav.innerHTML = '<a href="?clases">clases</a><a href="?words">words</a><a href="?sesiones">sesiones</a>';
 
     function preprocessPhrases(md) {
       return md.replace(/\{([^}]+)\}/g, (_, inner) => {
@@ -90,19 +79,28 @@
       return `<h1>${meta.writing} <small>(${meta.pronunciation})</small></h1>\n<p><em>${meta.type}</em></p>\n`;
     }
 
-    const file = location.search.slice(1) || lessons[0];
+    const file = location.search.slice(1) || "lessons/00-gojuuon.md";
     const isWord = file.startsWith("words/");
 
-    if (file === "words") {
-      loadWords().then(words => {
-        let html = "<h1>Palabras</h1><ul>";
-        for (const w of words) {
-          const name = w.replace("words/", "").replace(".md", "");
-          html += `<li><a href="?${w}">${name}</a></li>`;
+    function renderIndex(title, dir) {
+      loadDirLinks(dir).then(files => {
+        files.sort();
+        let html = `<h1>${title}</h1><ul>`;
+        for (const f of files) {
+          const path = dir + f;
+          html += `<li><a href="?${path}">${f.replace(".md", "")}</a></li>`;
         }
         html += "</ul>";
         document.getElementById("content").innerHTML = html;
       });
+    }
+
+    if (file === "clases") {
+      renderIndex("Clases", "lessons/");
+    } else if (file === "words") {
+      renderIndex("Palabras", "words/");
+    } else if (file === "sesiones") {
+      renderIndex("Sesiones", "session/");
     } else fetch(file)
       .then(r => r.text())
       .then(md => {

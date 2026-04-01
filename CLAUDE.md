@@ -19,9 +19,8 @@ paréntesis. Ej: 新しい (あたらしい)
 
 ## Lecciones
 
-Los archivos markdown (`00-gojuuon.md`, etc.) son el contenido principal. Para agregar
-una leccion, crear un nuevo archivo `.md` y agregar su nombre al array `lessons` en
-`index.html`.
+Los archivos markdown (`00-gojuuon.md`, etc.) son el contenido principal. Las lecciones
+se descubren automaticamente del directorio raiz -- solo crear un nuevo archivo `.md`.
 
 Sintaxis especial de markdown: `{texto}` envuelve texto japones con un boton inline de
 text-to-speech.
