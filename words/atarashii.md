@@ -23,8 +23,8 @@ Raiz: **新し** (あたらし)
 
 ## Uso
 
-新しい靴を買った。 あたらしいくつをかった。 Compre zapatos nuevos.
+{新 (あたら) しい 靴 (くつ) を 買 (か) った。} Compre zapatos nuevos.
 
-新しい先生はとても優しい。 あたらしいせんせいはとてもやさしい。 La nueva profesora es muy amable.
+{新 (あたら) しい 先生 (せんせい) はとても 優 (やさ) しい。} La nueva profesora es muy amable.
 
-何か新しいことを始めたい。 なにかあたらしいことをはじめたい。 Quiero empezar algo nuevo.
+{何 (なに) か 新 (あたら) しいことを 始 (はじ) めたい。} Quiero empezar algo nuevo.

@@ -11,8 +11,8 @@ type: sustantivo
 
 ## Uso
 
-{山に行きます。} (やまにいきます。) Voy a la montaña.
+{山 (やま) に 行 (い) きます。} Voy a la montaña.
 
-{山は高いです。} (やまはたかいです。) La montaña es alta.
+{山 (やま) は 高 (たか) いです。} La montaña es alta.
 
-{あの山はきれいです。} (あのやまはきれいです。) Esa montaña es bonita.
+{あの 山 (やま) はきれいです。} Esa montaña es bonita.

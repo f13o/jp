@@ -26,8 +26,8 @@ Raiz: **始め** (はじめ)
 
 ## Uso
 
-仕事を始めます。 しごとをはじめます。 Empiezo el trabajo.
+{仕事 (しごと) を 始 (はじ) めます。} Empiezo el trabajo.
 
-始めてください。 はじめてください。 Por favor, empiece.
+{始 (はじ) めてください。} Por favor, empiece.
 
-昨日始めた。 きのうはじめた。 Empece ayer.
+{昨日 (きのう) 始 (はじ) めた。} Empece ayer.

@@ -10,10 +10,10 @@ type: sustantivo
 
 ## Uso
 
-{どういう意味ですか} ()どういういみですか。) ¿Qué significa?
+{どういう 意味 (いみ) ですか。} ¿Qué significa?
 
-{この言葉の意味は何ですか。} (このことばのいみはなんですか。) ¿Cual es el significado de esta palabra?
+{この 言葉 (ことば) の 意味 (いみ) は 何 (なん) ですか。} ¿Cual es el significado de esta palabra?
 
-{意味がわかりません。} (いみがわかりません。) No entiendo el significado.
+{意味 (いみ) がわかりません。} No entiendo el significado.
 
-{いい意味です。} (いいいみです。) Es un buen significado.
+{いい 意味 (いみ) です。} Es un buen significado.

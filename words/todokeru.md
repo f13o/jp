@@ -26,8 +26,8 @@ Raiz: **届け** (とどけ)
 
 ## Uso
 
-荷物を届けます。 にもつをとどけます。 Entrego el paquete.
+{荷物 (にもつ) を 届 (とど) けます。} Entrego el paquete.
 
-手紙を届けた。 てがみをとどけた。 Entregue la carta.
+{手紙 (てがみ) を 届 (とど) けた。} Entregue la carta.
 
-届けてください。 とどけてください。 Por favor, entreguelo.
+{届 (とど) けてください。} Por favor, entreguelo.

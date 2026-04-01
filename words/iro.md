@@ -10,8 +10,8 @@ type: sustantivo
 
 ## Uso
 
-{何色ですか。} (なにいろですか。) ¿De que color es?
+{何色 (なにいろ) ですか。} ¿De que color es?
 
-{この色が好きです。} (このいろがすきです。) Me gusta este color.
+{この 色 (いろ) が 好 (す) きです。} Me gusta este color.
 
-{赤い色の花です。} (あかいいろのはなです。) Es una flor de color rojo.
+{赤 (あか) い 色 (いろ) の 花 (はな) です。} Es una flor de color rojo.

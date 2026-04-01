@@ -11,17 +11,17 @@ type: adjetivo-na
 
 ## Conjugaciones
 
-| Forma           | Conjugacion        |
-| --------------- | ------------------ |
-| Presente        | 便利だ             |
-| Negativa        | 便利じゃない       |
-| Pasado          | 便利だった         |
-| Pasado negativo | 便利じゃなかった   |
+| Forma           | Conjugacion      |
+| --------------- | ---------------- |
+| Presente        | 便利だ           |
+| Negativa        | 便利じゃない     |
+| Pasado          | 便利だった       |
+| Pasado negativo | 便利じゃなかった |
 
 ## Uso
 
-これは便利です。 これはべんりです。 Esto es practico.
+{これは 便利 (べんり) です。} Esto es practico.
 
-便利なものです。 べんりなものです。 Es algo util.
+{便利 (べんり) なものです。} Es algo util.
 
-とても便利です。 とてもべんりです。 Es muy conveniente.
+{とても 便利 (べんり) です。} Es muy conveniente.

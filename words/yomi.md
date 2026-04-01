@@ -11,8 +11,8 @@ type: sustantivo
 
 ## Uso
 
-読みは簡単です。 よみはかんたんです。 La lectura es facil.
+{読 (よ) みは 簡単 (かんたん) です。} La lectura es facil.
 
-漢字の読みを覚えます。 かんじのよみをおぼえます。 Memorizo la lectura de los kanji.
+{漢字 (かんじ) の 読 (よ) みを 覚 (おぼ) えます。} Memorizo la lectura de los kanji.
 
-この読みは正しいです。 このよみはただしいです。 Esta lectura es correcta.
+{この 読 (よ) みは 正 (ただ) しいです。} Esta lectura es correcta.

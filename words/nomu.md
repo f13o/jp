@@ -25,8 +25,8 @@ Raiz: **飲** (の)
 
 ## Uso
 
-水を飲む。 みずをのむ。 Beber agua.
+{水 (みず) を 飲 (の) む。} Beber agua.
 
-お茶を飲みます。 おちゃをのみます。 Tomo te.
+{お 茶 (ちゃ) を 飲 (の) みます。} Tomo te.
 
-毎朝コーヒーを飲んでいます。 まいあさコーヒーをのんでいます。 Todas las mananas tomo cafe.
+{毎朝 (まいあさ) コーヒーを 飲 (の) んでいます。} Todas las mananas tomo cafe.

@@ -26,8 +26,8 @@ Raiz: **考え** (かんがえ)
 
 ## Uso
 
-よく考えます。 よくかんがえます。 Pienso bien.
+{よく 考 (かんが) えます。} Pienso bien.
 
-何を考えた？ なにをかんがえた？ ¿Que pensaste?
+{何 (なに) を 考 (かんが) えた？} ¿Que pensaste?
 
-考えてください。 かんがえてください。 Por favor, pienselo.
+{考 (かんが) えてください。} Por favor, pienselo.

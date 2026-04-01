@@ -16,7 +16,7 @@ En realidad eran 46
 
 ## Seion 清音
 
-- 清（せい): limpio
+- 清 (せい): limpio
 - 音 (おん): sonido
 
 |     | あ  | い  | う  | え  | お  |
@@ -61,8 +61,8 @@ Fun fact:
 
 Los kanji tienen múltiples lecturas y pronunciaciones.
 
-- 音読み (おにょみ): lectura china
-- 訓読み (くにょみ): lectura japonesa nativa
+- 音読み (おんよみ): lectura china
+- 訓読み (くんよみ): lectura japonesa nativa
 
 El kanji 音 se pronuncia:
 

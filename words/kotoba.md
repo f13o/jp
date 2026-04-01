@@ -11,8 +11,8 @@ type: sustantivo
 
 ## Uso
 
-{この言葉は難しいです。} (このことばはむずかしいです。) Esta palabra es dificil.
+{この 言葉 (ことば) は 難 (むずか) しいです。} Esta palabra es dificil.
 
-{日本語の言葉を覚えます。} (にほんごのことばをおぼえます。) Memorizo palabras en japones.
+{日本語 (にほんご) の 言葉 (ことば) を 覚 (おぼ) えます。} Memorizo palabras en japones.
 
-{いい言葉ですね。} (いいことばですね。) Es una buena palabra, ¿verdad?
+{いい 言葉 (ことば) ですね。} Es una buena palabra, ¿verdad?

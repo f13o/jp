@@ -14,16 +14,23 @@ Enfocarse en el aprendizaje de japones. Cuando se pregunte sobre japones, ayudar
 gramatica, vocabulario, lecturas de kanji y ejercicios. Responder en espanol salvo que
 se pida lo contrario.
 
-Cada vez que uses kanji en una frase, acompañala de su equivalente en hiragana entre
-paréntesis. Ej: 新しい (あたらしい)
+Cada vez que uses kanji, acompañalo de su lectura en hiragana entre parentesis. En
+oraciones con multiples kanji, anotar cada palabra por separado.
+
+Ej: {猫 (ねこ) は 動物 (どうぶつ) です。}
 
 ## Lecciones
 
 Los archivos markdown (`00-gojuuon.md`, etc.) son el contenido principal. Las lecciones
 se descubren automaticamente del directorio raiz -- solo crear un nuevo archivo `.md`.
 
-Sintaxis especial de markdown: `{texto}` envuelve texto japones con un boton inline de
-text-to-speech.
+Sintaxis especial de markdown:
+
+- `{texto}` envuelve texto japones con un boton inline de text-to-speech.
+
+- `漢字 (かな)` se renderiza como ruby text con furigana encima del kanji.
+
+  Ej: `言葉 (ことば)` muestra ことば sobre 言葉.
 
 ## Ejecucion
 

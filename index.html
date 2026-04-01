@@ -9,11 +9,14 @@
     body { max-width: 700px; margin: 2rem auto; padding: 0 1rem; font-family: system-ui, sans-serif; line-height: 1.6; }
     table { border-collapse: collapse; }
     th, td { border: 1px solid #ccc; padding: 0.4rem 0.8rem; text-align: center; }
-    .speak { cursor: pointer; border-radius: 3px; }
+    .speak { cursor: pointer; border-radius: 3px; font-size: 1.15em; }
     .speak:hover { background: #e0e7ff; }
     .phrase-wrap { display: inline; }
     .phrase-btn { cursor: pointer; font-size: 0.75em; margin-left: 0.2em; opacity: 0.5; }
     .phrase-btn:hover { opacity: 1; }
+    ruby { ruby-position: over; }
+    ruby.speak { cursor: pointer; }
+    rt { font-size: 0.55em; pointer-events: none; }
     nav { margin-bottom: 2rem; }
     nav a { margin-right: 1rem; }
   </style>
@@ -58,9 +61,16 @@
     const nav = document.getElementById("nav");
     nav.innerHTML = '<a href="?clases">clases</a><a href="?words">words</a><a href="?sesiones">sesiones</a>';
 
+    const KANJI_READING = /([\u4E00-\u9FFF][\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]*)\s*[（(]([\u3040-\u309F\u30A0-\u30FF]+)[)）]/g;
+
+    function preprocessFurigana(md) {
+      return md.replace(KANJI_READING, '<ruby>$1<rt>$2</rt></ruby>');
+    }
+
     function preprocessPhrases(md) {
       return md.replace(/\{([^}]+)\}/g, (_, inner) => {
-        return `<span class="phrase-wrap">${inner}<span class="phrase-btn" data-speech="${inner}">&#9654;</span></span>`;
+        const speech = inner.replace(/([\u4E00-\u9FFF][\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]*)\s*[（(]([\u3040-\u309F\u30A0-\u30FF]+)[)）]/g, '$2');
+        return `<span class="phrase-wrap">${inner}<span class="phrase-btn" data-speech="${speech}">&#9654;</span></span>`;
       });
     }
 
@@ -76,7 +86,7 @@
     }
 
     function renderWordHeader(meta) {
-      return `<h1>${meta.writing} <small>(${meta.pronunciation})</small></h1>\n<p><em>${meta.type}</em></p>\n`;
+      return `<h1><ruby>${meta.writing}<rt>${meta.pronunciation}</rt></ruby></h1>\n<p><em>${meta.type}</em></p>\n`;
     }
 
     const file = location.search.slice(1) || "lessons/00-gojuuon.md";
@@ -107,28 +117,42 @@
         let html = "";
         if (isWord) {
           const { meta, body } = parseFrontmatter(md);
-          html = renderWordHeader(meta) + marked.parse(preprocessPhrases(body));
+          html = renderWordHeader(meta) + marked.parse(preprocessFurigana(preprocessPhrases(body)));
         } else {
-          html = marked.parse(preprocessPhrases(md));
+          html = marked.parse(preprocessFurigana(preprocessPhrases(md)));
         }
         document.getElementById("content").innerHTML = html;
         document.querySelectorAll(".phrase-btn").forEach(btn => {
-          btn.onclick = () => {
-            const u = new SpeechSynthesisUtterance(btn.dataset.speech);
-            u.lang = "ja-JP";
-            if (selectedVoice) u.voice = selectedVoice;
-            speechSynthesis.speak(u);
-          };
+          btn.onclick = () => speak(btn.dataset.speech);
         });
         wrapJapanese(document.getElementById("content"));
       });
 
+    function speak(text) {
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = "ja-JP";
+      if (selectedVoice) u.voice = selectedVoice;
+      speechSynthesis.speak(u);
+    }
+
+    function speakOn(el, text) {
+      el.classList.add("speak");
+      el.onclick = () => speak(text);
+    }
+
     function wrapJapanese(el) {
+      for (const ruby of el.querySelectorAll("ruby")) {
+        const rt = ruby.querySelector("rt");
+        if (rt) speakOn(ruby, rt.textContent);
+      }
+
       const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
       const nodes = [];
       while (walker.nextNode()) nodes.push(walker.currentNode);
 
       for (const node of nodes) {
+        if (node.parentNode.closest("ruby")) continue;
         if (!JAPANESE.test(node.textContent)) continue;
         JAPANESE.lastIndex = 0;
         const frag = document.createDocumentFragment();
@@ -137,15 +161,9 @@
         while ((match = JAPANESE.exec(node.textContent)) !== null) {
           if (match.index > last) frag.appendChild(document.createTextNode(node.textContent.slice(last, match.index)));
           const span = document.createElement("span");
-          span.className = "speak";
-          span.textContent = match[0];
           const text = match[0];
-          span.onclick = () => {
-            const u = new SpeechSynthesisUtterance(text);
-            u.lang = "ja-JP";
-            if (selectedVoice) u.voice = selectedVoice;
-            speechSynthesis.speak(u);
-          };
+          speakOn(span, text);
+          span.textContent = text;
           frag.appendChild(span);
           last = JAPANESE.lastIndex;
         }
