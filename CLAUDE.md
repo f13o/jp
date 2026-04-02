@@ -19,12 +19,18 @@ oraciones con multiples kanji, anotar cada palabra por separado.
 
 Ej: {猫 (ねこ) は 動物 (どうぶつ) です。}
 
-## Lecciones
+## Romaji
 
-Los archivos markdown (`00-gojuuon.md`, etc.) son el contenido principal. Las lecciones
-se descubren automaticamente del directorio raiz -- solo crear un nuevo archivo `.md`.
+Usar romanizacion Hepburn para nombres de archivo y cualquier romaji en el contenido.
+Ej: じ=ji, し=shi, ち=chi, つ=tsu, ふ=fu (no zi, si, ti, tu, hu).
 
-Sintaxis especial de markdown:
+## Lecciones, sesiones y palabras
+
+Los archivos markdown dentro de `lessons`, `sessions` and `words` son el contenido
+principal. Se descubren automaticamente del directorio raiz -- solo crear un nuevo
+archivo `.md`.
+
+### Sintaxis especial de markdown:
 
 - `{texto}` envuelve texto japones con un boton inline de text-to-speech.
 
@@ -32,7 +38,19 @@ Sintaxis especial de markdown:
 
   Ej: `言葉 (ことば)` muestra ことば sobre 言葉.
 
-## Ejecucion
+- Bloques `sentence` y `sentence-n` para oraciones junto a su traducción
+
+  ```sentence-n
+  ねこはどうぶつです
+  el gato es un animal
+  猫は動物です
+  ```
+
+  Estos bloques se muestra con la primera línea en primera jerarquía visual y las demás
+  como accesorias. El sufijo `-n` sirve para que tengan numeración automática dentro de
+  un documento.
+
+### Ejecucion
 
 ```
 ./server.sh    # abre el navegador y sirve en localhost:9999
