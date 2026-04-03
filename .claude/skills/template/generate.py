@@ -10,9 +10,9 @@ TEMPLATES_DIR = Path(__file__).parent / "templates"
 OUTPUT_DIR = Path(__file__).resolve().parents[3]
 
 GRIDS = {
-    8: (24, 32, "5mm"),
-    10: (19, 25, "7mm"),
-    15: (13, 17, "10mm"),
+    8: (24, 32, "6.8mm"),
+    10: (19, 25, "8.5mm"),
+    15: (13, 17, "12.75mm"),
 }
 
 EMPTY = '<div class="cell"></div>'
