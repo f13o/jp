@@ -55,8 +55,12 @@
         color: #333;
       }
       dd:last-of-type {
-        font-size: 0.9em;
-        color: #888;
+        font-size: 1em;
+        color: #777;
+      }
+      .jp-font {
+        font-family: var(--jp-font, "YuKyokasho"), system-ui, sans-serif;
+        font-size: 1.1em;
       }
       ruby {
         ruby-position: over;
@@ -65,7 +69,7 @@
         cursor: pointer;
       }
       rt {
-        font-size: 0.55em;
+        font-size: 0.5em;
         pointer-events: none;
       }
       nav {
@@ -79,6 +83,7 @@
   <body>
     <nav id="nav"></nav>
     <select id="voice"></select>
+    <div id="fonts"></div>
     <div id="content"></div>
     <script>
       const JAPANESE =
@@ -110,6 +115,22 @@
           .find((v) => v.name === voiceSelect.value);
       };
 
+      const fontsDiv = document.getElementById("fonts");
+      const JP_FONTS = ["YuKyokasho", "YuGothic"];
+      function applyFont(name) {
+        document.documentElement.style.setProperty("--jp-font", `"${name}"`);
+        for (const btn of fontsDiv.children)
+          btn.style.fontWeight = btn.dataset.font === name ? "bold" : "normal";
+      }
+      for (const f of JP_FONTS) {
+        const btn = document.createElement("button");
+        btn.textContent = f;
+        btn.dataset.font = f;
+        btn.onclick = () => applyFont(f);
+        fontsDiv.appendChild(btn);
+      }
+      applyFont(JP_FONTS[0]);
+
       async function loadDirLinks(dir) {
         const html = await fetch(dir).then((r) => r.text());
         const doc = new DOMParser().parseFromString(html, "text/html");
@@ -131,7 +152,10 @@
         /([\u4E00-\u9FFF][\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]*)\s*[（(]([\u3040-\u309F\u30A0-\u30FF]+)[)）]/g;
 
       function preprocessFurigana(md) {
-        return md.replace(KANJI_READING, "<ruby>$1<rt>$2</rt></ruby>");
+        return md.replace(
+          KANJI_READING,
+          '<ruby class="jp-font">$1<rt>$2</rt></ruby>',
+        );
       }
 
       function preprocessSentences(md) {
@@ -139,8 +163,11 @@
         return md.replace(
           /(?:~~~|```)(sentence-n|sentence)\n(.+)\n(.+)\n(.+)\n(?:~~~|```)/g,
           (_, tag, hiragana, spanish, kanji) => {
-            const prefix = tag === "sentence-n" ? `<span class="sentence-n">${++n}.</span> ` : "";
-            return `<dl><dt>${prefix}${hiragana}</dt><dd>${spanish}</dd><dd>${kanji}</dd></dl>`;
+            const prefix =
+              tag === "sentence-n"
+                ? `<span class="sentence-n">${++n}.</span> `
+                : "";
+            return `<dl><dt class="jp-font">${prefix}${hiragana}</dt><dd>${spanish}</dd><dd class="jp-font">${kanji}</dd></dl>`;
           },
         );
       }
@@ -201,9 +228,15 @@
               const { meta, body } = parseFrontmatter(md);
               html =
                 renderWordHeader(meta) +
-                marked.parse(preprocessSentences(preprocessFurigana(preprocessPhrases(body))));
+                marked.parse(
+                  preprocessSentences(
+                    preprocessFurigana(preprocessPhrases(body)),
+                  ),
+                );
             } else {
-              html = marked.parse(preprocessSentences(preprocessFurigana(preprocessPhrases(md))));
+              html = marked.parse(
+                preprocessSentences(preprocessFurigana(preprocessPhrases(md))),
+              );
             }
             document.getElementById("content").innerHTML = html;
             document.querySelectorAll(".phrase-btn").forEach((btn) => {
@@ -250,6 +283,7 @@
                 ),
               );
             const span = document.createElement("span");
+            span.className = "jp-font";
             const text = match[0];
             speakOn(span, text);
             span.textContent = text;
