@@ -78,6 +78,17 @@
       nav a {
         margin-right: 1rem;
       }
+      summary {
+        cursor: pointer;
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-top: 1rem;
+      }
+      @media print {
+        nav, #voice, #fonts { display: none; }
+        .answers { transform: rotate(180deg); }
+        summary { display: block; }
+      }
     </style>
   </head>
   <body>
@@ -243,6 +254,7 @@
               btn.onclick = () => speak(btn.dataset.speech);
             });
             wrapJapanese(document.getElementById("content"));
+            wrapAnswers(document.getElementById("content"));
           });
 
       function speak(text) {
@@ -297,6 +309,33 @@
           node.parentNode.replaceChild(frag, node);
         }
       }
+
+      function wrapAnswers(el) {
+        const headings = el.querySelectorAll("h2");
+        for (const h of headings) {
+          if (!h.textContent.includes("Respuestas")) continue;
+          const details = document.createElement("details");
+          details.className = "answers";
+          const summary = document.createElement("summary");
+          summary.textContent = h.textContent;
+          details.appendChild(summary);
+          h.before(details);
+          h.remove();
+          let node = details.nextSibling;
+          while (node) {
+            const next = node.nextSibling;
+            details.appendChild(node);
+            node = next;
+          }
+        }
+      }
+
+      window.addEventListener("beforeprint", () => {
+        document.querySelectorAll("details.answers").forEach(d => d.open = true);
+      });
+      window.addEventListener("afterprint", () => {
+        document.querySelectorAll("details.answers").forEach(d => d.open = false);
+      });
     </script>
   </body>
 </html>
