@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Practice Sheet</title>
+<style>
+  @page { size: letter; margin: 10mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "YuKyokasho", sans-serif; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat({{COLS}}, {{CELL_SIZE}}mm);
+    grid-template-rows: repeat({{ROWS}}, {{CELL_SIZE}}mm);
+    page-break-after: always;
+  }
+  .grid:last-child { page-break-after: auto; }
+  .cell {
+    border: 1px solid #ccc;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .cell::before, .cell::after {
+    content: '';
+    position: absolute;
+  }
+  .cell::before {
+    width: 100%;
+    height: 0;
+    top: 50%;
+    border-top: 1px dashed #ddd;
+  }
+  .cell::after {
+    height: 100%;
+    width: 0;
+    left: 50%;
+    border-left: 1px dashed #ddd;
+  }
+  .cell span {
+    position: relative;
+    z-index: 1;
+    font-size: {{FONT_SIZE}};
+    color: #666;
+  }
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+{{PAGES}}
+</body>
+</html>
