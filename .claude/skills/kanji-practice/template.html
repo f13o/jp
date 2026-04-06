@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kanji Practice</title>
+    <style>
+      @page {
+        size: letter;
+        margin: 10mm;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Klee", "YuKyokasho", sans-serif;
+        padding: 3mm;
+      }
+      .page {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2mm;
+        page-break-after: always;
+      }
+      .page:last-child {
+        page-break-after: auto;
+      }
+      .block {
+        display: flex;
+        width: 90mm;
+        height: 36mm;
+        outline: 1px solid #999;
+        outline-offset: -0.5px;
+      }
+      .left {
+        width: 18mm;
+        height: 36mm;
+        display: flex;
+        flex-direction: column;
+        outline: 1px solid #999;
+        outline-offset: -0.5px;
+      }
+      .on,
+      .kun {
+        height: 9mm;
+        padding: 0 1mm;
+        font-size: 8.5pt;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        line-height: 1.2;
+        overflow: hidden;
+        outline: 1px solid #999;
+        outline-offset: -0.5px;
+      }
+      .ref {
+        height: 18mm;
+        outline: 1px solid #999;
+        outline-offset: -0.5px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ref::before,
+      .ref::after {
+        content: "";
+        position: absolute;
+      }
+      .ref::before {
+        width: 100%;
+        height: 0;
+        top: 50%;
+        border-top: 1px dashed #ddd;
+      }
+      .ref::after {
+        height: 100%;
+        width: 0;
+        left: 50%;
+        border-left: 1px dashed #ddd;
+      }
+      .ref span {
+        position: relative;
+        z-index: 1;
+        font-size: 15mm;
+        font-weight: 100;
+      }
+      .ref .strokes {
+        position: absolute;
+        top: 1px;
+        right: 2px;
+        font-size: 5pt;
+        color: #444;
+      }
+      .right {
+        width: 72mm;
+        height: 36mm;
+        display: flex;
+        flex-direction: column;
+      }
+      .right-top {
+        height: 12mm;
+        display: flex;
+      }
+      .meaning {
+        width: 24mm;
+        height: 12mm;
+        outline: 1px solid #999;
+        outline-offset: -0.5px;
+        padding: 0 1mm;
+        font-size: 7pt;
+        display: flex;
+        align-items: center;
+      }
+      .examples {
+        width: 48mm;
+        height: 12mm;
+        outline: 1px solid #999;
+        outline-offset: -0.5px;
+        padding: 1mm;
+        font-size: 8pt;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.5mm;
+      }
+      .practice {
+        display: grid;
+        grid-template-columns: repeat(6, 12mm);
+        grid-template-rows: repeat(2, 12mm);
+      }
+      .cell {
+        outline: 1px solid #999;
+        outline-offset: -0.5px;
+        position: relative;
+      }
+      .cell::before,
+      .cell::after {
+        content: "";
+        position: absolute;
+      }
+      .cell::before {
+        width: 100%;
+        height: 0;
+        top: 50%;
+        border-top: 1px dashed #ddd;
+      }
+      .cell::after {
+        height: 100%;
+        width: 0;
+        left: 50%;
+        border-left: 1px dashed #ddd;
+      }
+      @media print {
+        body {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    {{PAGES}}
+  </body>
+</html>
