@@ -501,7 +501,7 @@ Estoy leyendo un libro occidental.
 ```
 
 ```sentence-n
-漢字 (かんじ)を 百字 (ひゃくじ) 知 (し)っています。
+漢字 (かんじ)を 百個 (ひゃっこ) 知 (し)っています。
 Conozco cien kanji.
 ```
 
@@ -601,7 +601,7 @@ Dibujo un círculo.
 ```
 
 ```sentence-n
-羽 (はね)が 二 (に) 本 (ほん)あります。
+羽 (はね)が 二枚 (にまい)あります。
 Tiene dos plumas.
 ```
 

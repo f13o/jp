@@ -122,7 +122,7 @@ Traza una línea, por favor.
 
 ```sentence-n
 弓 (ゆみ)と 矢 (や)を 持 (も)ちます。
-Llevo arco y flechas.
+Tengo arco y flechas.
 ```
 
 ```sentence-n

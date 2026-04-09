@@ -66,7 +66,7 @@ Vi un perro grande.
 ```
 
 ```sentence-n
-このお 堂 (どう)は 古 (ふる)いです。
+このお堂 (どう)は 古 (ふる)いです。
 Este templo es antiguo.
 ```
 

@@ -362,7 +362,7 @@ Camino hasta la estación.
 
 ```sentence-n
 小 (ちい)さい 村 (むら)に 住 (す)んでいます。
-Vivo en un pueblo pequeño.
+Vivo en una aldea pequeña.
 ```
 
 ```sentence-n
@@ -452,7 +452,7 @@ Llegó un barco grande.
 
 ```sentence-n
 あの 角 (かど)を 右 (みぎ)に 曲 (ま)がる。
-Dobla a la derecha en esa esquina.
+Doblo a la derecha en esa esquina.
 ```
 
 ```sentence-n

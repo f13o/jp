@@ -61,7 +61,7 @@ Veo una película con amigos.
 ```
 
 ```sentence-n
-四人 (よにん) 家族 (かぞく)です。
+四人家族 (よにんかぞく)です。
 Somos una familia de cuatro.
 ```
 
@@ -121,7 +121,7 @@ Acompaño a mi madre hasta la estación.
 ```
 
 ```sentence-n
-可愛 (かわい)い 子 (こ)ですね。
+可愛 (かわ)いい 子 (こ)ですね。
 Qué niño tan lindo.
 ```
 
@@ -166,12 +166,12 @@ Caminé junto con mi hermano menor.
 ```
 
 ```sentence-n
-友人 (ゆうじん)にお 金 (かね)を 借 (か)りました。
+友人 (ゆうじん)に お金 (かね)を 借 (か)りました。
 Le pedí dinero prestado a un amigo.
 ```
 
 ```sentence-n
-母 (はは)とお 茶 (ちゃ)を 飲 (の)みました。
+母 (はは)と お茶 (ちゃ)を 飲 (の)みました。
 Tomé té con mi madre.
 ```
 
@@ -192,7 +192,7 @@ Los niños están mirando insectos.
 
 ```sentence-n
 名前 (なまえ)を 記入 (きにゅう)します。
-Completo el nombre.
+Relleno el nombre.
 ```
 
 ```sentence-n
@@ -226,7 +226,7 @@ Voy junto con mi hermano mayor.
 ```
 
 ```sentence-n
-六才 (ろくさい)の 子 (こ)どもです。
+六歳 (ろくさい)の 子 (こ)どもです。
 Es un niño de seis años.
 ```
 
