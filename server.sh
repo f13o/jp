@@ -1,3 +1,3 @@
 #!/bin/sh
 open http://localhost:9999
-python3 -m http.server 9999 -d "$(dirname "$0")"
+python3 "$(dirname "$0")/server.py" 9999

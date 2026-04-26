@@ -45,7 +45,18 @@
       dl {
         margin: 0.8rem 0;
       }
+      .sentence-columns {
+        column-count: 2;
+        column-gap: 2rem;
+      }
+      .sentence-columns dl {
+        break-inside: avoid;
+      }
       dt {
+      }
+      .sentence-n {
+        font-size: 0.7em;
+        opacity: 0.4;
       }
       dd {
         margin-left: 1.2rem;
@@ -88,6 +99,37 @@
         nav, #voice, #fonts { display: none; }
         .answers { transform: rotate(180deg); }
         summary { display: block; }
+      }
+      #dict-search {
+        padding: 0.4rem 0.6rem;
+        font-size: 1rem;
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 1rem;
+      }
+      .dict-entry {
+        margin-bottom: 1.2rem;
+        padding-bottom: 0.8rem;
+        border-bottom: 1px solid #eee;
+      }
+      .dict-entry .writing {
+        font-size: 1.4em;
+      }
+      .dict-entry .reading {
+        color: #666;
+        margin-left: 0.5rem;
+      }
+      .dict-entry .pos {
+        font-size: 0.85em;
+        color: #888;
+        font-style: italic;
+      }
+      .dict-entry .gloss-spa {
+        color: #333;
+      }
+      .dict-entry .gloss-eng {
+        color: #777;
+        font-size: 0.95em;
       }
     </style>
   </head>
@@ -145,19 +187,25 @@
       async function loadDirLinks(dir) {
         const html = await fetch(dir).then((r) => r.text());
         const doc = new DOMParser().parseFromString(html, "text/html");
-        return [...doc.querySelectorAll("a")]
+        const hrefs = [...doc.querySelectorAll("a")]
           .map((a) => a.getAttribute("href"))
-          .filter(
-            (h) =>
-              h.endsWith(".md") &&
-              !h.startsWith("CLAUDE") &&
-              !h.startsWith("README"),
-          );
+          .filter((h) => !h.startsWith("CLAUDE") && !h.startsWith("README"));
+        const files = hrefs.filter((h) => h.endsWith(".md"));
+        const dirs = hrefs.filter(
+          (h) => h.endsWith("/") && !h.startsWith("/") && !h.startsWith(".."),
+        );
+        const nested = await Promise.all(
+          dirs.map(async (d) => {
+            const sub = await loadDirLinks(dir + d);
+            return sub.map((f) => d + f);
+          }),
+        );
+        return files.concat(nested.flat());
       }
 
       const nav = document.getElementById("nav");
       nav.innerHTML =
-        '<a href="?clases">clases</a><a href="?words">words</a><a href="?sesiones">sesiones</a>';
+        '<a href="?clases">clases</a><a href="?words">words</a><a href="?sesiones">sesiones</a><a href="?dict">dict</a>';
 
       const KANJI_READING =
         /([\u4E00-\u9FFF][\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]*)\s*[（(]([\u3040-\u309F\u30A0-\u30FF]+)[)）]/g;
@@ -172,13 +220,17 @@
       function preprocessSentences(md) {
         let n = 0;
         return md.replace(
-          /(?:~~~|```)(sentence-n|sentence)\n(.+)\n(.+)\n(.+)\n(?:~~~|```)/g,
-          (_, tag, hiragana, spanish, kanji) => {
+          /(?:~~~|```)(sentence-n|sentence)\n(.+)(?:\n(.+))?(?:\n(.+))?\n(?:~~~|```)/g,
+          (_, tag, first, second, third) => {
             const prefix =
               tag === "sentence-n"
                 ? `<span class="sentence-n">${++n}.</span> `
                 : "";
-            return `<dl><dt class="jp-font">${prefix}${hiragana}</dt><dd>${spanish}</dd><dd class="jp-font">${kanji}</dd></dl>`;
+            if (third)
+              return `<dl><dt class="jp-font">${prefix}${first}</dt><dd>${second}</dd><dd class="jp-font">${third}</dd></dl>`;
+            if (second)
+              return `<dl><dt class="jp-font">${prefix}${first}</dt><dd>${second}</dd></dl>`;
+            return `<dl><dt class="jp-font">${prefix}${first}</dt></dl>`;
           },
         );
       }
@@ -224,7 +276,54 @@
         });
       }
 
-      if (file === "clases") {
+      function renderDictEntry(entry) {
+        const kanji = entry.k || [];
+        const readings = entry.r;
+        let html = '<div class="dict-entry">';
+        const mainText = kanji[0] || readings[0];
+        html += `<span class="writing jp-font speak" data-speech="${readings[0]}">${mainText}</span>`;
+        if (kanji.length)
+          html += `<span class="reading jp-font">${readings.join("、")}</span>`;
+        if (kanji.length > 1)
+          html += `<span class="reading jp-font">[${kanji.slice(1).join("、")}]</span>`;
+        for (const s of entry.s) {
+          html += "<div>";
+          if (s.p) html += `<span class="pos">${s.p.join(", ")}</span> `;
+          if (s.s) html += `<span class="gloss-spa">${s.s.join("; ")}</span> `;
+          if (s.e) html += `<span class="gloss-eng">${s.e.join("; ")}</span>`;
+          html += "</div>";
+        }
+        html += "</div>";
+        return html;
+      }
+
+      let dictTimer = null;
+      function renderDict() {
+        const content = document.getElementById("content");
+        content.innerHTML = '<h1>Diccionario</h1><input id="dict-search" type="text" placeholder="buscar palabra..." autofocus>';
+        const input = document.getElementById("dict-search");
+        const results = document.createElement("div");
+        content.appendChild(results);
+        input.addEventListener("input", () => {
+          clearTimeout(dictTimer);
+          dictTimer = setTimeout(() => {
+            const q = input.value.trim();
+            if (!q) { results.innerHTML = ""; return; }
+            fetch(`/search?q=${encodeURIComponent(q)}`)
+              .then(r => r.json())
+              .then(entries => {
+                results.innerHTML = entries.map(renderDictEntry).join("");
+                results.querySelectorAll(".speak").forEach(el => {
+                  speakOn(el, el.dataset.speech);
+                });
+              });
+          }, 300);
+        });
+      }
+
+      if (file === "dict") {
+        renderDict();
+      } else if (file === "clases") {
         renderIndex("Clases", "lessons/");
       } else if (file === "words") {
         renderIndex("Palabras", "words/");
@@ -253,6 +352,7 @@
             document.querySelectorAll(".phrase-btn").forEach((btn) => {
               btn.onclick = () => speak(btn.dataset.speech);
             });
+            wrapSentenceColumns(document.getElementById("content"));
             wrapJapanese(document.getElementById("content"));
             wrapAnswers(document.getElementById("content"));
           });
@@ -268,6 +368,25 @@
       function speakOn(el, text) {
         el.classList.add("speak");
         el.onclick = () => speak(text);
+      }
+
+      function wrapSentenceColumns(root) {
+        const children = [...root.children];
+        let run = [];
+        for (let i = 0; i <= children.length; i++) {
+          const el = children[i];
+          if (el && el.tagName === "DL") {
+            run.push(el);
+          } else {
+            if (run.length > 5) {
+              const wrap = document.createElement("div");
+              wrap.className = "sentence-columns";
+              run[0].before(wrap);
+              for (const dl of run) wrap.appendChild(dl);
+            }
+            run = [];
+          }
+        }
       }
 
       function wrapJapanese(el) {
