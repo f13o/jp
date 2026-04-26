@@ -12,8 +12,6 @@ Gojuuon
 - 十 (じゅう)：10
 - 音 (おん)：sonido
 
-En realidad eran 46
-
 ## Seion 清音
 
 - 清 (せい): limpio
@@ -27,17 +25,20 @@ En realidad eran 46
 | え  | け  | せ  | て  | ね  | へ  | め  |     | れ  |     |
 | お  | こ  | そ  | と  | の  | ほ  | も  | よ  | ろ  | を  |
 
-## Hatsuon 撥音
+## 片仮名
 
-- 撥 (はつ): saltar, repeler -> el único sonido que no tiene una vocal, pasa solo por la
-  nariz
-- 音 (おん): sonido
+|     | k   | s   | t   | n   | h   | m   | y   | r   | w   |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ア  | カ  | サ  | タ  | ナ  | ハ  | マ  | ヤ  | ラ  | ワ  |
+| イ  | キ  | シ  | チ  | ニ  | ヒ  | ミ  |     | リ  |     |
+| ウ  | ク  | ス  | ツ  | ヌ  | フ  | ム  | ユ  | ル  |     |
+| エ  | ケ  | セ  | テ  | ネ  | ヘ  | メ  |     | レ  |     |
+| オ  | コ  | ソ  | ト  | ノ  | ホ  | モ  | ヨ  | ロ  | ヲ  |
 
-Fun fact:
+En realidad son 46. Los sonidos `yi`, `ye`, `wi`, `wu`,`wo` se han aborbido por otros.
+Ej: ゑ→え
 
-- 発音 (はつおん): pronunciación
-
-## Dakuten y Handakuten (濁点 と 半濁点)
+## Sonidos impuros y semi-impuros - 濁点 (だくてん) と 半濁点 (はんだくてん)
 
 - 濁 (だく): turbio, impuro -> vibración en la garganta
 - 点 (てん): punto, marca
@@ -51,24 +52,30 @@ Fun fact:
 | え  | ぜ  | べ  | ぺ  | げ  | で  |
 | お  | ぞ  | ぼ  | ぽ  | ご  | ど  |
 
-## Lectura y pronunciación ({読み と 発音})
+## Lectura y pronunciación de Kanjis ({感じの読み(よみ)と発音(はつおん)})
 
-{よみ と はつおん}
+**Pronunciación**:
 
-Los kanji tienen múltiples lecturas y pronunciaciones.
+- 発 (はつ): partir (en: depart), emitir
+- 音 (おん): sonido
 
-- 音読み (おんよみ): lectura china
-- 訓読み (くんよみ): lectura japonesa nativa
+**Lecturas**
 
-El kanji 音 se pronuncia:
+Los kanji tienen, generalmente, dos lecturas:
 
-- おん cuando va compuesto con más kanji: 五十音
-- おと cuando está solo o acompañado de ひらがな: 音
+1. 音読(おんよ)み: Es la que deriva del sonido chino original cuando el 漢字 fue importado a 日本.
+   Se usa principalmente en palabras compuestas de dos o más 漢字.
 
-El kandi 仮 se pronuncia:
+1. 訓読(くんよ)み: Es la lectura japonesa nativa que ya existía antes de la adopción del 漢字.
+   Se usa cuando el 漢字　aparece solo o con 送（おく）り仮名（がな）.
 
-- 音読み: か -> 仮名, 仮面
-- 訓読み: かり -> 仮の
+Ejemplos:
+
+|         |            |                        |                         |
+| ------- | ---------- | ---------------------- | ----------------------- |
+| montaña | 山（やま） | 山脈（さんみゃく）     | cordillera              |
+| agua    | 水（みず） | 水道（すいどう）       | tubería, agua corriente |
+| persona | 人（ひと） | 外国人（がいこくじん） | extranjero              |
 
 # Ejercicios
 
@@ -100,16 +107,17 @@ El kandi 仮 se pronuncia:
 
 ## Lee estas palabras en voz alta
 
-1. あい
-1. うえ
-1. かき
-1. さくら
-1. たなか
-1. やま
-1. かわ
-1. そら
-1. ひと
-1. ねこ
+1. 愛（あい）
+1. 上（うえ）
+1. 下（した）
+1. 桜（さくら）
+1. 田中（たなか）
+1. 山（やま）
+1. 川（かわ）
+1. 空（そら）
+1. 人（ひと）
+1. 猫（ねこ）
+1. 犬（いぬ）
 
 ______________________________________________________________________
 
