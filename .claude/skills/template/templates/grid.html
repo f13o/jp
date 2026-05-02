@@ -20,7 +20,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
   }
   .cell::before, .cell::after {
     content: '';
@@ -38,11 +37,23 @@
     left: 50%;
     border-left: 1px dashed #ddd;
   }
+  .spacer {
+    grid-column: 1 / -1;
+  }
   .cell span {
     position: relative;
     z-index: 1;
     font-size: {{FONT_SIZE}};
     color: #333;
+  }
+  .cell span.num {
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    font-size: 7pt;
+    color: #999;
+    line-height: 1;
+    z-index: 2;
   }
   @media print {
     body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }

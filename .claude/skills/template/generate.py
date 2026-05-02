@@ -11,13 +11,16 @@ OUTPUT_DIR = Path(__file__).resolve().parents[3]
 
 GRIDS = {
     8: (24, 32, "6.8mm"),
+    9: (21, 28, "7.65mm"),
     10: (19, 25, "8.5mm"),
     15: (13, 17, "12.75mm"),
 }
 
 EMPTY = '<div class="cell"></div>'
+SPACER = '<div class="spacer"></div>'
 SENTENCE_END = re.compile(r"(?<=[。？！])")
-ROWS_PER_SENTENCE = 4
+FURIGANA = re.compile(r"(\S+)\s\(([^)]+)\)")
+FOOTNOTE = re.compile(r"\[\d+\]")
 
 
 def is_kana(ch):
@@ -38,8 +41,24 @@ def ref_cell(ch):
     return f'<div class="cell"><span>{ch}</span></div>'
 
 
-def fill_page(cells, cols, rows):
-    remaining = (cols * rows) - len(cells)
+def ref_cell_num(ch, num):
+    return f'<div class="cell"><span class="num">{num}</span><span>{ch}</span></div>'
+
+
+def to_kanji(line):
+    line = FURIGANA.sub(r"\1", line)
+    line = FOOTNOTE.sub("", line)
+    return line.replace(" ", "")
+
+
+def to_kana(line):
+    line = FURIGANA.sub(r"\2", line)
+    line = FOOTNOTE.sub("", line)
+    return line.replace(" ", "")
+
+
+def fill_page(cells, cols, rows, used_rows):
+    remaining = (rows - used_rows) * cols
     return cells + [EMPTY] * remaining
 
 
@@ -69,11 +88,56 @@ def generate_characters(text, cols, rows):
     return pages
 
 
-def sentence_row(chars, width):
+def sentence_row(chars, width, num=None):
     cells = []
     for i in range(width):
-        cells.append(ref_cell(chars[i]) if i < len(chars) else EMPTY)
+        if i < len(chars):
+            if i == 0 and num is not None:
+                cells.append(ref_cell_num(chars[i], num))
+            else:
+                cells.append(ref_cell(chars[i]))
+        else:
+            cells.append(EMPTY)
     return cells
+
+
+def parse_markdown(path, kanji=False, kana=False, furigana=False):
+    text = Path(path).read_text()
+    result = []
+    counter = 0
+    in_fence = False
+    fence_type = None
+    got_first = False
+
+    for line in text.split("\n"):
+        stripped = line.strip()
+        if not in_fence:
+            if stripped.startswith("```sentence-n"):
+                in_fence = True
+                fence_type = "numbered"
+                got_first = False
+            elif stripped.startswith("```sentence"):
+                in_fence = True
+                fence_type = "plain"
+                got_first = False
+        elif stripped.startswith("```"):
+            in_fence = False
+        elif not got_first:
+            got_first = True
+            num = None
+            if fence_type == "numbered":
+                counter += 1
+                num = counter
+            if kanji:
+                result.append((to_kanji(stripped), num))
+                if furigana:
+                    kana_ver = to_kana(stripped)
+                    if kana_ver != result[-1][0]:
+                        result.append((kana_ver, None))
+            elif kana:
+                result.append((to_kana(stripped), num))
+
+    return result
 
 
 def pack_sentences(sentences, cols):
@@ -93,9 +157,15 @@ def pack_sentences(sentences, cols):
     return groups
 
 
-def generate_sentences(text, cols, rows, two_columns=False, wrap=False):
+def generate_sentences(text, cols, rows, reps=3, two_columns=False, wrap=False):
     sentences = split_sentences(text)
-    sents_per_col = rows // ROWS_PER_SENTENCE
+    first_block = 1 + reps
+    rest_block = 2 + reps
+    sents_per_col = (
+        max(0, 1 + (rows - first_block) // rest_block)
+        if rows >= first_block
+        else 0
+    )
 
     if two_columns:
         half = (cols - 1) // 2
@@ -111,20 +181,22 @@ def generate_sentences(text, cols, rows, two_columns=False, wrap=False):
 
     if wrap:
         groups = pack_sentences(sentences, cols)
-        blocks_per_page = rows // ROWS_PER_SENTENCE
         pages = []
-        for page_start in range(0, len(groups), blocks_per_page):
-            page_groups = groups[page_start : page_start + blocks_per_page]
+        for page_start in range(0, len(groups), sents_per_col):
+            page_groups = groups[page_start : page_start + sents_per_col]
             cells = []
             row = 0
-            for group in page_groups:
+            for i, group in enumerate(page_groups):
+                if i > 0:
+                    cells.append(SPACER)
+                    row += 1
                 combined = list("".join(group))
                 cells += sentence_row(combined, cols)
                 row += 1
-                practice_rows = min(3, rows - row)
+                practice_rows = min(reps, rows - row)
                 cells += [EMPTY] * (practice_rows * cols)
                 row += practice_rows
-            cells = fill_page(cells, cols, rows)
+            cells = fill_page(cells, cols, rows, row)
             pages.append(make_page(cells))
         return pages
 
@@ -136,34 +208,78 @@ def generate_sentences(text, cols, rows, two_columns=False, wrap=False):
             left = page_sents[:sents_per_col]
             right = page_sents[sents_per_col:]
             right_width = cols - half - 1
+
+            def ref_map(sents):
+                refs = {}
+                r = 0
+                for i in range(len(sents)):
+                    if i > 0:
+                        r += 1
+                    refs[r] = i
+                    r += 1 + reps
+                return refs
+
+            left_refs = ref_map(left)
+            right_refs = ref_map(right)
+
             cells = []
             for row_idx in range(rows):
-                sent_idx = row_idx // ROWS_PER_SENTENCE
-                is_ref = row_idx % ROWS_PER_SENTENCE == 0
-
-                if is_ref and sent_idx < len(left):
-                    cells += sentence_row(list(left[sent_idx]), half)
+                if row_idx in left_refs:
+                    cells += sentence_row(list(left[left_refs[row_idx]]), half)
                 else:
                     cells += [EMPTY] * half
-
                 cells.append(EMPTY)
-
-                if is_ref and sent_idx < len(right):
-                    cells += sentence_row(list(right[sent_idx]), right_width)
+                if row_idx in right_refs:
+                    cells += sentence_row(list(right[right_refs[row_idx]]), right_width)
                 else:
                     cells += [EMPTY] * right_width
             pages.append(make_page(cells))
         else:
             cells = []
             row = 0
-            for sentence in page_sents:
+            for i, sentence in enumerate(page_sents):
+                if i > 0:
+                    cells.append(SPACER)
+                    row += 1
                 cells += sentence_row(list(sentence), cols)
                 row += 1
-                practice_rows = min(3, rows - row)
+                practice_rows = min(reps, rows - row)
                 cells += [EMPTY] * (practice_rows * cols)
                 row += practice_rows
-            cells = fill_page(cells, cols, rows)
+            cells = fill_page(cells, cols, rows, row)
             pages.append(make_page(cells))
+    return pages
+
+
+def generate_line_blocks(sentences, cols, rows, reps=3):
+    pages = []
+    pending = list(sentences)
+
+    while pending:
+        cells = []
+        row = 0
+        used = 0
+        for i, (s, num) in enumerate(pending):
+            ref_rows = -(-len(s) // cols)
+            annotation = 1 if (row > 0) else 0
+            needed = annotation + (1 + reps) * ref_rows
+            if row + needed > rows and row > 0:
+                break
+            if annotation:
+                cells.append(SPACER)
+                row += 1
+            for r in range(ref_rows):
+                chunk = list(s[r * cols : (r + 1) * cols])
+                cells += sentence_row(chunk, cols, num if r == 0 else None)
+                row += 1
+                practice = min(reps, rows - row)
+                cells += [EMPTY] * (practice * cols)
+                row += practice
+            used += 1
+        pending = pending[used:]
+        if pending:
+            cells = fill_page(cells, cols, rows, row)
+        pages.append(make_page(cells))
     return pages
 
 
@@ -179,24 +295,52 @@ def name_with_counter(name: str) -> Path:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("name")
-    parser.add_argument("content")
+    parser.add_argument("content", nargs="?")
+    parser.add_argument("--file", type=str)
+    parser.add_argument("--kanji", action="store_true")
+    parser.add_argument("--kana", action="store_true")
+    parser.add_argument("--furigana", action="store_true")
     parser.add_argument("--sentences", action="store_true")
     parser.add_argument("--two-columns", action="store_true")
     parser.add_argument("--no-wrap", action="store_true")
-    parser.add_argument("--grid", type=int, choices=[8, 10, 15], required=True)
+    parser.add_argument("--line-block", action="store_true")
+    parser.add_argument("--grid", type=int, choices=[8, 9, 10, 15], required=True)
+    parser.add_argument("--reps", type=int, default=3)
     args = parser.parse_args()
 
+    if args.file and args.content:
+        sys.exit("Error: --file y content son mutuamente excluyentes")
+    if not args.file and not args.content:
+        sys.exit("Error: content o --file requerido")
+    if args.file and not (args.kanji or args.kana):
+        sys.exit("Error: --file requiere --kanji o --kana")
+    if args.kanji and args.kana:
+        sys.exit("Error: --kanji y --kana son mutuamente excluyentes")
+    if args.furigana and not args.kanji:
+        sys.exit("Error: --furigana requiere --kanji")
     if (args.two_columns or args.no_wrap) and not args.sentences:
         sys.exit("Error: --two-columns y --no-wrap solo funcionan con --sentences")
     if args.two_columns and not args.no_wrap:
         sys.exit("Error: --two-columns requiere --no-wrap")
+    if args.line_block and not args.sentences:
+        sys.exit("Error: --line-block requiere --sentences")
+    if args.line_block and (args.two_columns or args.no_wrap):
+        sys.exit("Error: --line-block no es compatible con --two-columns ni --no-wrap")
 
     cols, rows, font_size = GRIDS[args.grid]
-    wrap = args.sentences and not args.no_wrap
+    wrap = args.sentences and not args.no_wrap and not args.line_block
 
-    if args.sentences:
+    if args.file:
+        sentences = parse_markdown(
+            args.file, args.kanji, args.kana, args.furigana
+        )
+        pages = generate_line_blocks(sentences, cols, rows, args.reps)
+    elif args.line_block:
+        sentences = [(s, None) for s in split_sentences(args.content)]
+        pages = generate_line_blocks(sentences, cols, rows, args.reps)
+    elif args.sentences:
         pages = generate_sentences(
-            args.content, cols, rows, args.two_columns, wrap
+            args.content, cols, rows, args.reps, args.two_columns, wrap
         )
     else:
         pages = generate_characters(args.content, cols, rows)
